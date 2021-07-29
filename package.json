@@ -1,6 +1,7 @@
 {
   "name": "discord-search",
   "displayName": "discord-search",
+  "publisher":"EndOfLeTime",
   "description": "Searches Discord.JS documentation",
   "version": "0.0.1",
   "engines": {

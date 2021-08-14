@@ -2,8 +2,9 @@
   "name": "discord-search",
   "displayName": "discord-search",
   "publisher":"EndOfLeTime",
+  "icon": "images/FgTq0eT.png",
   "description": "Searches Discord.JS documentation",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "engines": {
     "vscode": "^1.58.0"
   },

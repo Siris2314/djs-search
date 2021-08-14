@@ -1,10 +1,7 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
+
 const vscode = require('vscode');
 const axios = require('axios');
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -29,11 +26,15 @@ function activate(context) {
 		const input = editor.document.getText(editor.selection)
 	try{
 		const data = await axios.get(`https://djsdocs.sorta.moe/v2/embed?src=stable&q=${encodeURIComponent(input)}`)
+		if(!data.data.fields){
+			return vscode.window.showInformationMessage('Please use a relevant Discord Object, i.e. Message, MessageEmbed, Client etc. ');
+		}
+	else{
 		vscode.window.showInformationMessage(`Documentation information on ${input}: ${data.data.url}`);
 		let newarr = []
         let arr = Object.values(data.data.fields[0])
+		if(!arr) return;
         newarr = arr.splice(1,2)[0].replace(/`/g, "").split(' ')
-        console.log(newarr);
 		const quickPick = vscode.window.createQuickPick()
 		quickPick.items = newarr.map(
 			(x) => ({label: x}),
@@ -47,18 +48,19 @@ function activate(context) {
 		})
 		quickPick.onDidHide(() => quickPick.dispose());
 		quickPick.show();
+	}
 
 		} catch (error) {
 			console.log(error);
-			vscode.window.showInformationMessage('Please use a relevant Discord Object, i.e. Message, MessageEmbed, Client etc. ');
+			return vscode.window.showInformationMessage('Please use a relevant Discord Object, i.e. Message, MessageEmbed, Client etc. ');
 		}
+		
 
 	});
 
 	context.subscriptions.push(disposable);
 }
 
-// this method is called when your extension is deactivated
 function deactivate() {}
 
 module.exports = {

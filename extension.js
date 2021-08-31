@@ -36,16 +36,76 @@ function activate(context) {
 		if(!arr) return;
         newarr = arr.splice(1,2)[0].replace(/`/g, "").split(' ')
 		const quickPick = vscode.window.createQuickPick()
+		
 		quickPick.items = newarr.map(
 			(x) => ({label: x}),
 			);
-		quickPick.onDidChangeSelection(([item]) => {
-			if(item){
-				vscode.window.showInformationMessage(item.label)
-				quickPick.dispose();
 
+		quickPick.onDidAccept(() => {
+			
+			const item = quickPick.selectedItems[0];
+			if(item){
+				const panel = vscode.window.createWebviewPanel(
+					'discord-search',
+					item.label,
+					vscode.ViewColumn.One,
+					{
+						enableScripts: true
+					}
+				);
+
+
+				console.log(item.label)
+
+				function getWebviewContent() {
+					return `<!DOCTYPE html>
+					<html>
+					<body>
+					
+				
+					<iframe src=${data.data.url}?scrollTo=${item.label} title="Channel ID" allowFullScreen = true  width="100%" height="800">
+					</iframe>
+
+
+
+
+					<script>
+					function getIframeContent(frameID) {
+						var frameObj = 
+							document.getElementById(frameID);
+						var frameContent = frameObj
+							.contentWindow.document.body.innerHTML;
+			  
+						alert("frame content : " + frameContent);
+					}
+				</script>
+
+				
+
+					
+					</body>
+					</html>`;
+				  }
+
+				
+				  
+		  		panel.webview.html = getWebviewContent();	
+				// vscode.window.showInformationMessage(item.label)
+				quickPick.dispose();
 			}
+
+		
 		})
+	
+
+		// quickPick.onDidChangeSelection(([item]) => {
+		// 	if(item){
+		// 		vscode.window.showInformationMessage(item.label)
+
+		// 		quickPick.dispose();
+
+		// 	}
+		// })
 		quickPick.onDidHide(() => quickPick.dispose());
 		quickPick.show();
 	}
@@ -67,3 +127,5 @@ module.exports = {
 	activate,
 	deactivate
 }
+
+

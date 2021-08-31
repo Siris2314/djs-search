@@ -19,6 +19,11 @@ A VS Code extension made for discord.js Developers,access API methods and proper
 <img width="634" alt="image" src="https://user-images.githubusercontent.com/25334323/127553236-9853e034-2203-45a6-9cf9-9ded24138546.png">
 
 
+- A new feature now allows you to select attributes from the list of available attributes
+- Upon selecting an attribute from the list, you will be directed to a WebView Tab that redirects to the attribute, along with a full viewpage of the Discord.js Documentation Page(It will load it to the attribute page)
+- 
+
+
 
 
 
